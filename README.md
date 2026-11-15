@@ -81,7 +81,9 @@ The tables and the menu are created automatically on first start.
 
 **Free-tier behaviour.** Render's free server sleeps after 15 minutes without traffic, and the first request after that takes up to about a minute. Orders are safe in Postgres either way. To avoid the wait, point a free uptime monitor such as UptimeRobot at `/health` every 10 minutes; Render's 750 free hours a month cover one always-on service. Render's paid Starter plan (about US$7 a month) removes sleeping entirely, with no code changes.
 
-**Other hosts.** Any Node.js host with a PostgreSQL database works: Railway, Fly.io, a VPS, and so on. Serverless platforms such as Vercel and Netlify don't suit this app, because live updates need long-lived connections.
+**Netlify.** The app also runs on [Netlify Server](https://docs.netlify.com/build/server/) (Early Access, needs Node.js 24): `netlify.toml` and `netlify/server/index.mjs` are set up. In Netlify, add `DATABASE_URL`, `ADMIN_PIN` and `SESSION_SECRET` under Site configuration → Environment variables (scope must include Functions), then redeploy. The free plan runs one instance that stops after 5 minutes without visitors, so the first visit after that is slower.
+
+**Other hosts.** Any Node.js host with a PostgreSQL database works: Railway, Fly.io, a VPS, and so on.
 
 ## Notes
 

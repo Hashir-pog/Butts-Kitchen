@@ -1,3 +1,9 @@
+# Netlify: static pages come from public/ via the CDN; everything else
+# (the /api routes, /track/:code, live updates) goes to the Express server
+# in netlify/server/. Netlify Server needs Node.js 24 or later.
 [build]
 command = "npm ci"
 publish = "public"
+
+[build.environment]
+NODE_VERSION = "24"
