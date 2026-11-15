@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Kitchen — Butts Kitchen</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0E6B3A">
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&family=Rozha+One&display=swap">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+  <!-- PIN sign-in -->
+  <main class="login" id="login" hidden>
+    <form class="login-card" id="loginForm" novalidate>
+      <div class="band" role="presentation"></div>
+      <div class="login-body">
+        <div class="brand">
+          <img src="/img/logo.svg" alt="" width="42" height="42">
+          <span><span class="brand-name">Butts Kitchen</span><span class="brand-tag">Kitchen sign-in</span></span>
+        </div>
+        <div class="field">
+          <label for="pin">Kitchen PIN</label>
+          <input class="input pin-input" id="pin" type="password" inputmode="numeric" autocomplete="current-password" maxlength="12" required aria-describedby="pinErr">
+          <p class="error-text" id="pinErr" role="alert"></p>
+        </div>
+        <button class="btn btn-primary btn-lg btn-block" type="submit" id="loginBtn">Sign in</button>
+        <a class="back-link" href="/">Back to the ordering site</a>
+      </div>
+    </form>
+  </main>
+
+  <!-- Dashboard -->
+  <div class="app" id="app" hidden>
+    <header class="app-head">
+      <a class="brand" href="#live" aria-label="Butts Kitchen kitchen dashboard">
+        <img src="/img/logo.svg" alt="" width="36" height="36">
+        <span class="brand-name">Butts Kitchen</span>
+      </a>
+      <nav class="tabs" aria-label="Dashboard sections">
+        <a href="#live" data-tab="live"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14M15 5v14"/></svg><span>Live orders</span><b class="badge" id="liveBadge" hidden>0</b></a>
+        <a href="#history" data-tab="history"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l3 2"/></svg><span>History</span></a>
+        <a href="#sales" data-tab="sales"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Sales</span></a>
+        <a href="#menu" data-tab="menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M17 3c-2 0-3 3-3 6s1 4 3 4v8"/></svg><span>Menu</span></a>
+      </nav>
+      <div class="head-tools">
+        <span class="live-dot off" id="liveStatus">Connecting…</span>
+        <button class="icon-btn" id="soundBtn" type="button" aria-pressed="true" aria-label="Sound for new orders is on"></button>
+        <button class="icon-btn" id="themeBtn" type="button"></button>
+        <button class="btn btn-ghost" id="logoutBtn" type="button">Sign out</button>
+      </div>
+    </header>
+
+    <!-- LIVE -->
+    <section class="view" id="view-live" aria-labelledby="liveTitle">
+      <div class="view-head">
+        <div>
+          <h1 id="liveTitle">Live orders</h1>
+          <p class="view-sub" id="liveSummary">Loading…</p>
+        </div>
+        <div class="view-actions">
+          <label class="switch" title="When off, customers can browse the menu but can’t place orders online">
+            <input type="checkbox" id="openSwitch"><span class="track"></span><span id="openLabel">Taking online orders</span>
+          </label>
+          <button class="btn btn-primary" type="button" id="phoneOrderBtn">+ Add phone order</button>
+        </div>
+      </div>
+      <div class="board" id="board">
+        <section class="col" data-col="new" aria-labelledby="col-new">
+          <h2 id="col-new"><span class="chip chip-new">New</span><span class="count" data-count="new">0</span></h2>
+          <div class="col-body" data-list="new"></div>
+        </section>
+        <section class="col" data-col="preparing" aria-labelledby="col-prep">
+          <h2 id="col-prep"><span class="chip chip-preparing">Preparing</span><span class="count" data-count="preparing">0</span></h2>
+          <div class="col-body" data-list="preparing"></div>
+        </section>
+        <section class="col" data-col="ready" aria-labelledby="col-ready">
+          <h2 id="col-ready"><span class="chip chip-ready">Ready / out for delivery</span><span class="count" data-count="ready">0</span></h2>
+          <div class="col-body" data-list="ready"></div>
+        </section>
+      </div>
+    </section>
+
+    <!-- HISTORY -->
+    <section class="view" id="view-history" aria-labelledby="historyTitle" hidden>
+      <div class="view-head">
+        <div>
+          <h1 id="historyTitle">Order history</h1>
+          <p class="view-sub" id="historySummary"></p>
+        </div>
+        <div class="view-actions"><a class="btn btn-outline" id="csvBtn" href="#" download>Download as spreadsheet (CSV)</a></div>
+      </div>
+      <form class="filters" id="filters" role="search">
+        <div class="segmented" role="radiogroup" aria-label="Date range">
+          <input type="radio" name="range" id="r-today" value="today" checked><label for="r-today">Today</label>
+          <input type="radio" name="range" id="r-yesterday" value="yesterday"><label for="r-yesterday">Yesterday</label>
+          <input type="radio" name="range" id="r-7" value="7"><label for="r-7">Last 7 days</label>
+          <input type="radio" name="range" id="r-month" value="month"><label for="r-month">This month</label>
+          <input type="radio" name="range" id="r-all" value="all"><label for="r-all">All time</label>
+        </div>
+        <div class="filter-row">
+          <label class="sr-only" for="statusFilter">Status</label>
+          <select class="select" id="statusFilter">
+            <option value="">All statuses</option>
+            <option value="new">New</option><option value="preparing">Preparing</option><option value="ready">Ready</option>
+            <option value="completed">Completed</option><option value="cancelled">Cancelled</option>
+          </select>
+          <label class="sr-only" for="searchInput">Search orders</label>
+          <input class="input" id="searchInput" type="search" placeholder="Search name, phone or order number">
+        </div>
+      </form>
+      <div class="table-wrap">
+        <table class="orders-table">
+          <thead><tr><th scope="col">Order</th><th scope="col">Placed</th><th scope="col">Customer</th><th scope="col">Items</th><th scope="col">Type</th><th scope="col">Status</th><th scope="col" class="num">Total</th></tr></thead>
+          <tbody id="historyBody"></tbody>
+        </table>
+      </div>
+      <div class="more"><button class="btn btn-outline" id="moreBtn" type="button" hidden>Show more orders</button></div>
+    </section>
+
+    <!-- SALES -->
+    <section class="view" id="view-sales" aria-labelledby="salesTitle" hidden>
+      <div class="view-head">
+        <div>
+          <h1 id="salesTitle">Sales</h1>
+          <p class="view-sub" id="salesUpdated"></p>
+        </div>
+      </div>
+      <h2 class="section-title">Today so far</h2>
+      <div class="tiles" id="todayTiles"></div>
+
+      <div class="month-head">
+        <h2 class="section-title" id="monthTitle">This month</h2>
+        <div class="month-nav">
+          <button class="icon-btn" type="button" id="prevMonth" aria-label="Previous month"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+          <button class="icon-btn" type="button" id="nextMonth" aria-label="Next month"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button>
+        </div>
+      </div>
+      <div class="tiles" id="monthTiles"></div>
+
+      <div class="charts">
+        <figure class="card chart-card chart-wide">
+          <figcaption><h3>Sales by day</h3><button class="btn btn-ghost table-toggle" type="button" data-table="dailyTable">Show as table</button></figcaption>
+          <div class="chart" id="dailyChart"></div>
+          <div class="chart-table" id="dailyTable" hidden></div>
+        </figure>
+        <figure class="card chart-card">
+          <figcaption><h3>Best-selling dishes</h3><span class="cap-note">by sales this month</span></figcaption>
+          <div id="topItems"></div>
+        </figure>
+        <figure class="card chart-card">
+          <figcaption><h3>Busiest hours</h3><span class="cap-note">orders over the last 30 days</span></figcaption>
+          <div class="chart" id="hoursChart"></div>
+        </figure>
+        <figure class="card chart-card">
+          <figcaption><h3>How orders come in</h3><span class="cap-note">this month</span></figcaption>
+          <div id="splits"></div>
+        </figure>
+      </div>
+      <div class="chart-tip" id="chartTip" role="tooltip" hidden></div>
+    </section>
+
+    <!-- MENU -->
+    <section class="view" id="view-menu" aria-labelledby="menuTitle" hidden>
+      <div class="view-head">
+        <div>
+          <h1 id="menuTitle">Menu and settings</h1>
+          <p class="view-sub">Changes show on the ordering site straight away.</p>
+        </div>
+      </div>
+      <div class="card settings-card">
+        <h2 class="section-title">Ordering</h2>
+        <form class="settings-form" id="settingsForm">
+          <div class="field">
+            <label for="feeInput">Delivery fee (Rs.)</label>
+            <input class="input" id="feeInput" type="number" inputmode="numeric" min="0" max="10000" step="10">
+            <span class="hint">Added to delivery orders only. Set 0 for free delivery.</span>
+          </div>
+          <button class="btn btn-outline" type="submit">Save delivery fee</button>
+        </form>
+      </div>
+      <div id="menuEditor"></div>
+    </section>
+  </div>
+
+  <!-- Order details -->
+  <dialog id="orderDialog" aria-labelledby="orderDialogTitle">
+    <div class="dialog-head"><h2 id="orderDialogTitle">Order</h2><button class="icon-btn" type="button" data-close aria-label="Close"></button></div>
+    <div class="dialog-body" id="orderDialogBody"></div>
+    <div class="dialog-foot" id="orderDialogFoot"></div>
+  </dialog>
+
+  <!-- Cancel order -->
+  <dialog id="cancelDialog" aria-labelledby="cancelTitle">
+    <form method="dialog" id="cancelForm">
+      <div class="dialog-head"><h2 id="cancelTitle">Cancel order</h2><button class="icon-btn" type="button" data-close aria-label="Close"></button></div>
+      <div class="dialog-body">
+        <p id="cancelText">The customer will see that their order was cancelled.</p>
+        <fieldset class="field" style="border:0;padding:0;margin:0">
+          <legend class="label">Reason</legend>
+          <div class="segmented">
+            <input type="radio" name="reason" id="cr1" value="Customer asked to cancel" checked><label for="cr1">Customer asked to cancel</label>
+            <input type="radio" name="reason" id="cr2" value="A dish is out of stock"><label for="cr2">Out of stock</label>
+            <input type="radio" name="reason" id="cr3" value="We couldn’t reach you on the phone"><label for="cr3">Couldn’t reach customer</label>
+            <input type="radio" name="reason" id="cr4" value="Outside our delivery area"><label for="cr4">Outside delivery area</label>
+          </div>
+        </fieldset>
+      </div>
+      <div class="dialog-foot">
+        <button class="btn btn-ghost" type="button" data-close>Keep order</button>
+        <button class="btn btn-danger" type="submit" id="cancelConfirm">Cancel order</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Phone order -->
+  <dialog id="phoneDialog" aria-labelledby="phoneTitle" class="wide">
+    <form id="phoneForm" novalidate>
+      <div class="dialog-head"><h2 id="phoneTitle">Add phone order</h2><button class="icon-btn" type="button" data-close aria-label="Close"></button></div>
+      <div class="dialog-body">
+        <div class="phone-grid">
+          <div class="field" data-field="customer_name"><label for="pName">Customer name</label><input class="input" id="pName" required><span class="error"></span></div>
+          <div class="field" data-field="phone"><label for="pPhone">Mobile number</label><input class="input" id="pPhone" type="tel" inputmode="tel" placeholder="03XX XXXXXXX" required><span class="error"></span></div>
+        </div>
+        <fieldset class="field" style="border:0;padding:0;margin:0">
+          <legend class="label">Type</legend>
+          <div class="segmented">
+            <input type="radio" name="ptype" id="pDel" value="delivery" checked><label for="pDel">Delivery</label>
+            <input type="radio" name="ptype" id="pPick" value="pickup"><label for="pPick">Pickup</label>
+          </div>
+        </fieldset>
+        <div class="field" data-field="address" id="pAddressField"><label for="pAddress">Delivery address</label><input class="input" id="pAddress"><span class="error"></span></div>
+        <div class="field" data-field="lines">
+          <span class="label">Dishes</span>
+          <div class="picker" id="picker"></div>
+          <span class="error"></span>
+        </div>
+        <div class="field"><label for="pNotes">Notes <span class="hint">(optional)</span></label><input class="input" id="pNotes"></div>
+      </div>
+      <div class="dialog-foot">
+        <span class="phone-total" id="phoneTotal">Total Rs. 0</span>
+        <button class="btn btn-ghost" type="button" data-close>Discard</button>
+        <button class="btn btn-primary" type="submit" id="phoneSubmit">Add order</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/admin.js"></script>
+</body>
+</html>

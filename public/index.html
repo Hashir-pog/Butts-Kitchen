@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Butts Kitchen — Order home-cooked food</title>
+  <meta name="description" content="Order karahi, biryani, handi and more from Butts Kitchen for pickup or delivery, and follow your order live.">
+  <meta name="theme-color" content="#0E6B3A">
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&family=Rozha+One&display=swap">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#menu">Skip to the menu</a>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="/" aria-label="Butts Kitchen home">
+        <img src="/img/logo.svg" alt="" width="42" height="42">
+        <span><span class="brand-name">Butts Kitchen</span><span class="brand-tag">Name of Trust</span></span>
+      </a>
+      <div class="topbar-actions">
+        <a class="btn btn-ghost track-link" id="trackLink" href="#" hidden>Track your order</a>
+        <button class="icon-btn" id="themeBtn" type="button"></button>
+        <a class="btn btn-outline call-btn" href="tel:+923458081990" aria-label="Call Butts Kitchen on 0345 8081990">
+          <span class="call-icon"></span><span class="call-text">0345 8081990</span>
+        </a>
+      </div>
+    </div>
+  </header>
+  <div class="band" role="presentation"></div>
+
+  <div class="closed-banner" id="closedBanner" hidden>
+    <div class="wrap">The kitchen isn’t taking online orders right now. You can still call us on <a href="tel:+923458081990">0345 8081990</a>.</div>
+  </div>
+
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div class="hero-copy">
+        <h1>Karahi, biryani and handi, cooked at home and sent hot to your door.</h1>
+        <p class="hero-sub">Order online for pickup or delivery. We start cooking when your order comes in, and you can watch it go from our stove to your table, live.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary btn-lg" href="#menu">Start your order</a>
+          <a class="btn btn-outline btn-lg" href="tel:+923458081990">Order by phone</a>
+        </div>
+        <ul class="hero-facts">
+          <li><strong>Pickup or delivery</strong> you choose at checkout</li>
+          <li><strong>Cash on delivery</strong> no card needed</li>
+          <li><strong>Live tracking</strong> see each step as it happens</li>
+        </ul>
+      </div>
+      <article class="feature" id="feature" aria-label="Featured dish">
+        <div class="feature-plate" aria-hidden="true">
+          <svg viewBox="0 0 200 200"><circle cx="100" cy="100" r="96" fill="var(--card)" stroke="var(--line-strong)" stroke-width="2"/><circle cx="100" cy="100" r="74" fill="none" stroke="var(--line)" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round"/><circle cx="100" cy="100" r="58" fill="#B5471E"/><circle cx="100" cy="100" r="58" fill="url(#g)"/><defs><radialGradient id="g" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#E07A2E"/><stop offset=".6" stop-color="#B5471E"/><stop offset="1" stop-color="#7E2A12"/></radialGradient></defs><g fill="#F6D7A7"><ellipse cx="82" cy="86" rx="13" ry="9" transform="rotate(-20 82 86)"/><ellipse cx="118" cy="92" rx="14" ry="9" transform="rotate(25 118 92)"/><ellipse cx="96" cy="118" rx="13" ry="8" transform="rotate(10 96 118)"/></g><g stroke="#2E8B3E" stroke-width="4" stroke-linecap="round"><path d="M70 108l10-4M124 116l9 4M104 72l4-9"/></g><g fill="#2E8B3E"><circle cx="90" cy="100" r="3"/><circle cx="112" cy="110" r="3"/><circle cx="108" cy="80" r="2.5"/></g><path d="M78 66c6-3 10-3 14 0" stroke="#F2B233" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+        </div>
+        <div class="feature-body" id="featureBody">
+          <p class="feature-loading">Loading today’s menu…</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <div class="wrap layout">
+    <main id="menu" class="menu" tabindex="-1">
+      <nav class="cats" aria-label="Menu sections" id="cats"></nav>
+      <div id="menuSections" aria-live="polite">
+        <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+      </div>
+    </main>
+
+    <!-- Cart: sticky column on wide screens, bottom sheet on phones -->
+    <div class="cart-scrim" id="cartScrim" hidden></div>
+    <aside class="cart" id="cart" aria-labelledby="cartTitle">
+      <div class="cart-head">
+        <button class="icon-btn cart-back" id="cartBack" type="button" aria-label="Back to your order" hidden></button>
+        <div>
+          <h2 id="cartTitle">Your order</h2>
+          <ol class="steps" aria-label="Checkout steps">
+            <li class="is-current" id="stepOrder">Dishes</li>
+            <li id="stepDetails">Your details</li>
+          </ol>
+        </div>
+        <button class="icon-btn cart-close" id="cartClose" type="button" aria-label="Close your order"></button>
+      </div>
+
+      <div class="cart-view" id="viewItems">
+        <div class="cart-empty" id="cartEmpty">
+          <p><strong>Your order is empty.</strong></p>
+          <p>Pick a portion and press Add on any dish to start.</p>
+        </div>
+        <ul class="cart-lines" id="cartLines"></ul>
+      </div>
+
+      <form class="cart-view" id="viewDetails" novalidate hidden>
+        <fieldset class="field">
+          <legend class="label">How would you like it?</legend>
+          <div class="segmented">
+            <input type="radio" name="type" id="typeDelivery" value="delivery" checked><label for="typeDelivery">Delivery</label>
+            <input type="radio" name="type" id="typePickup" value="pickup"><label for="typePickup">Pickup</label>
+          </div>
+        </fieldset>
+        <div class="field" data-field="customer_name">
+          <label for="fName">Your name</label>
+          <input class="input" id="fName" name="customer_name" autocomplete="name" required maxlength="60">
+          <span class="error" id="fNameErr"></span>
+        </div>
+        <div class="field" data-field="phone">
+          <label for="fPhone">Mobile number</label>
+          <input class="input" id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="03XX XXXXXXX" required aria-describedby="fPhoneHint">
+          <span class="hint" id="fPhoneHint">We’ll call this number if we need to confirm anything.</span>
+          <span class="error"></span>
+        </div>
+        <div class="field" data-field="address" id="addressField">
+          <label for="fAddress">Delivery address</label>
+          <textarea class="textarea" id="fAddress" name="address" autocomplete="street-address" placeholder="House, street, block and area" maxlength="240"></textarea>
+          <span class="error"></span>
+        </div>
+        <div class="field" data-field="notes">
+          <label for="fNotes">Notes for the kitchen <span class="optional">(optional)</span></label>
+          <input class="input" id="fNotes" name="notes" maxlength="300" placeholder="e.g. Less spicy, extra raita">
+        </div>
+        <label class="remember"><input type="checkbox" id="fRemember" checked> Remember my details on this device</label>
+        <p class="form-error" id="formError" role="alert" hidden></p>
+      </form>
+
+      <div class="cart-foot" id="cartFoot" hidden>
+        <dl class="totals">
+          <div><dt>Subtotal</dt><dd id="tSubtotal">Rs. 0</dd></div>
+          <div id="tFeeRow" hidden><dt>Delivery</dt><dd id="tFee">Rs. 0</dd></div>
+          <div class="grand"><dt>Total</dt><dd id="tTotal">Rs. 0</dd></div>
+        </dl>
+        <p class="pay-note" id="payNote" hidden>Pay in cash when you receive your order.</p>
+        <button class="btn btn-primary btn-lg btn-block" id="cartAction" type="button">Continue to your details</button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Phone-only summary bar -->
+  <button class="cart-bar" id="cartBar" type="button" hidden>
+    <span class="cart-bar-count" id="cartBarCount">0</span>
+    <span>View your order</span>
+    <span class="cart-bar-total" id="cartBarTotal">Rs. 0</span>
+  </button>
+
+  <footer class="footer">
+    <div class="band" role="presentation"></div>
+    <div class="wrap footer-inner">
+      <div class="brand">
+        <img src="/img/logo.svg" alt="" width="42" height="42">
+        <span><span class="brand-name">Butts Kitchen</span><span class="brand-tag">Name of Trust</span></span>
+      </div>
+      <p>Questions or large orders? Call <a href="tel:+923458081990">0345 8081990</a>.</p>
+      <p class="footer-small">All prices in Pakistani rupees. <a href="/admin">Kitchen sign-in</a></p>
+    </div>
+  </footer>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/site.js"></script>
+</body>
+</html>

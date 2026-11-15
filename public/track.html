@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Your order — Butts Kitchen</title>
+  <meta name="theme-color" content="#0E6B3A">
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&family=Rozha+One&display=swap">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/track.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="/" aria-label="Butts Kitchen home">
+        <img src="/img/logo.svg" alt="" width="42" height="42">
+        <span><span class="brand-name">Butts Kitchen</span><span class="brand-tag">Name of Trust</span></span>
+      </a>
+      <div class="topbar-actions">
+        <button class="icon-btn" id="themeBtn" type="button"></button>
+        <a class="btn btn-outline call-btn" href="tel:+923458081990" aria-label="Call Butts Kitchen on 0345 8081990">
+          <span class="call-icon"></span><span class="call-text">0345 8081990</span>
+        </a>
+      </div>
+    </div>
+  </header>
+  <div class="band" role="presentation"></div>
+
+  <main class="track wrap" id="track" aria-live="polite">
+    <p class="track-loading">Finding your order…</p>
+  </main>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/track.js"></script>
+</body>
+</html>
