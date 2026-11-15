@@ -1,0 +1,21 @@
+# Render setup (render.com -> New -> Blueprint -> pick this repo).
+# The database is PostgreSQL. Paste your connection string (for example from Neon) as DATABASE_URL.
+services:
+  - type: web
+    name: butts-kitchen
+    runtime: node
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: 22.13.0
+      - key: TZ
+        value: Asia/Karachi
+      - key: DATABASE_URL
+        sync: false
+      - key: ADMIN_PIN
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
