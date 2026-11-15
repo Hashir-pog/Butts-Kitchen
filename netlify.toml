@@ -1,9 +1,18 @@
 # Netlify: static pages come from public/ via the CDN; everything else
-# (the /api routes, /track/:code, live updates) goes to the Express server
-# in netlify/server/. Netlify Server needs Node.js 24 or later.
+# (the /api routes, live updates) goes to the Express server in netlify/server/.
+# Netlify Server needs Node.js 24 or later.
 [build]
-command = "npm ci"
+command = "npm ci && npm run build:server"
 publish = "public"
 
 [build.environment]
 NODE_VERSION = "24"
+
+[server]
+includedFiles = ["public/**"]
+
+# Customer tracking pages are plain HTML; the page reads the code from the URL.
+[[redirects]]
+from = "/track/*"
+to = "/track.html"
+status = 200

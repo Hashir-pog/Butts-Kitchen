@@ -6,7 +6,9 @@ const { query, transaction } = require('./pool');
 const MENU = require('./menu-seed');
 
 async function migrate() {
-  await query(fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf8'));
+  // The Netlify build embeds schema.sql as BK_SCHEMA_SQL (see scripts/build-server.mjs).
+  const sql = process.env.BK_SCHEMA_SQL || fs.readFileSync(path.join(__dirname, 'schema.sql'), 'utf8');
+  await query(sql);
   const { rows } = await query('SELECT COUNT(*)::int AS n FROM menu_items');
   if (rows[0].n > 0) return;
   await transaction(async client => {

@@ -6,7 +6,10 @@ const { router: publicRoutes } = require('./routes/public');
 const adminRoutes = require('./routes/admin');
 const { UserError } = require('./lib/errors');
 
-const PUBLIC_DIR = path.join(__dirname, '..', 'public');
+const fs = require('node:fs');
+// public/ sits next to src/ normally; in the Netlify bundle, look in the working directory too.
+const PUBLIC_DIR = [path.join(__dirname, '..', 'public'), path.join(process.cwd(), 'public')]
+  .find(dir => fs.existsSync(path.join(dir, 'index.html'))) || path.join(__dirname, '..', 'public');
 const app = express();
 
 app.set('trust proxy', 1); // correct visitor IPs and HTTPS detection behind Render/Railway proxies
@@ -28,7 +31,11 @@ app.use('/api', (req, res) => res.status(404).json({ error: 'Not found.' }));
 app.use(express.static(PUBLIC_DIR, { extensions: ['html'], maxAge: '1h' }));
 app.get('/track/:code', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'track.html')));
 app.get('/admin', (req, res) => res.sendFile(path.join(PUBLIC_DIR, 'admin.html')));
-app.use((req, res) => res.status(404).sendFile(path.join(PUBLIC_DIR, 'index.html')));
+app.use((req, res) => {
+  const page = path.join(PUBLIC_DIR, 'index.html');
+  if (fs.existsSync(page)) return res.status(404).sendFile(page);
+  res.redirect('/');
+});
 
 // Errors: friendly messages for expected problems, a generic one for anything else
 app.use((err, req, res, next) => {
