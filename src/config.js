@@ -4,7 +4,7 @@ process.env.TZ = process.env.TZ || 'Asia/Karachi';
 const config = {
   port: Number(process.env.PORT) || 3000,
   databaseUrl: process.env.DATABASE_URL,
-  adminPin: String(process.env.ADMIN_PIN || '1234'),
+  adminPin: String(process.env.ADMIN_PIN || '1234').trim(), // trim: pasted values often carry a stray space or newline
   usingDefaultPin: !process.env.ADMIN_PIN,
   sessionSecret: process.env.SESSION_SECRET || '',
   sessionDays: 14,
