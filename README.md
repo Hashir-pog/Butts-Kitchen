@@ -90,3 +90,4 @@ The tables and the menu are created automatically on first start.
 - Prices are always calculated on the server from the database, never taken from the browser.
 - Order lines store the dish name and price at the time of ordering, so editing the menu never changes past orders.
 - Sales figures exclude cancelled orders.
+
